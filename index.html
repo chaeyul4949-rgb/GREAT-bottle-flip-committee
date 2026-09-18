@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 검색 키워드 및 사이트 설명 추가 -->
 <title>물병 세우기 게임 - 대단한 물병 세우기 위원회 | 온라인 물병게임</title>
-<meta name="description" content=""심플한 조작과 화려한 스킬, 스릴 넘치는 미니게임까지 더해진 막강한 몰입감의 3D 타임킬링 온라인 물병 세우기 게임 지금바로 이 게임을 플레이하세요!"
+<meta name="description" content="심플한 조작과 화려한 스킬, 스릴 넘치는 미니게임까지 더해진 막강한 몰입감의 3D 타임킬링 온라인 물병 세우기 게임 지금바로 이 게임을 플레이하세요!">
 <meta name="keywords" content="물병게임, 물병세우기, 물병세우기게임, 물병 던지기, bottle flip, 무료 웹게임">
 <meta property="og:title" content="물병 세우기 게임 - 대단한 물병 세우기 위원회">
-<meta property="og:description" content=""심플한 조작과 화려한 스킬, 스릴 넘치는 미니게임까지 더해진 막강한 몰입감의 3D 타임킬링 온라인 물병 세우기 게임!">
+<meta property="og:description" content="심플한 조작과 화려한 스킬, 스릴 넘치는 미니게임까지 더해진 막강한 몰입감의 3D 타임킬링 온라인 물병 세우기 게임!">
 <meta property="og:image" content="https://ojsfile.ohmynews.com/STD_IMG_FILE/2018/1115/IE002421031_STD.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,9 +290,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
 .tut-btns{display:flex;gap:8px;align-items:center}
 .tut-skip{background:transparent;border:0;color:var(--mute);font-weight:900;font-size:13px;cursor:pointer;padding:8px 4px;text-decoration:underline}
 .tut-go{flex:1;padding:10px;font-size:18px}
-.tut-hint{position:fixed;z-index:45;transform:translate(-50%,-100%);max-width:calc(100vw - 24px);text-align:center;background:var(--bronze);color:#1e1409;padding:9px 16px;border-radius:8px;font-size:18px;pointer-events:none;box-shadow:0 0 0 2px var(--edge),0 6px 16px rgba(0,0,0,.5);animation:hintb .7s ease-in-out infinite alternate}
+.tut-hint{position:fixed;z-index:45;transform:translate(-50%,-100%);max-width:calc(100vw - 24px);text-align:center;background:var(--bronze);color:#1e1409;padding:9px 16px;border-radius:8px;font-size:18px;pointer-events:none;box-shadow:0 0 0 2px var(--edge),0 6px 16px rgba(0,0,0,.5)}
+.tut-hint>div{animation:hintb .7s ease-in-out infinite alternate} /* 글자만 통통 튀고 건너뛰기 버튼은 고정 */
+.tut-hint-skip{pointer-events:auto;display:block;margin:6px auto 0;background:rgba(30,20,9,.18);border:0;border-radius:5px;color:#1e1409;font-family:"Gothic A1",sans-serif;font-weight:900;font-size:12px;padding:4px 10px;cursor:pointer;text-decoration:underline}
 .tut-hint::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:var(--bronze)}
-@keyframes hintb{to{transform:translate(-50%,calc(-100% - 6px))}}
+@keyframes hintb{to{transform:translateY(-3px)}}
 </style>
 </head>
 <body>
@@ -1566,7 +1568,8 @@ $('soundIc').textContent=S.sound?'🔊':'🔇';
 throwBtn.addEventListener('click',()=>doThrow());
 cv.addEventListener('pointerdown',e=>{ e.preventDefault(); doThrow(); });
 window.addEventListener('keydown',e=>{
-  if(tutFrozen()){ if(e.code==='Enter'||e.code==='Space'){ e.preventDefault(); tutNext(); } else if(e.code==='Escape' && !TUT[tut.i].last && !tut.force) tutEnd(); return; }
+  if(tutFrozen()){ if(e.code==='Enter'||e.code==='Space'){ e.preventDefault(); tutNext(); } else if(e.code==='Escape' && !TUT[tut.i].last) tutEnd(); return; }
+  if(tut && e.code==='Escape'){ tutEnd(); return; }
   if(modalOpen){ if(e.code==='Escape' && modalPrimary===closeModal) closeModal(); return; }
   if(e.repeat) return;
   if(e.target.tagName==='INPUT') return;
@@ -1705,12 +1708,12 @@ const tutEl=$('tut'), tutHole=$('tutHole'), tutCard=$('tutCard'), tutHint=$('tut
 const tutFrozen = () => !!(tut && tut.frozen);
 function tutStart(){
   if(modalOpen || flight || settle) { setTimeout(tutStart,300); return; }
-  texts=[]; tut={i:0,frozen:true,done:false,force:!S.tutDone}; tutShow(); // 처음 한 번은 건너뛰기 없이 끝까지
+  texts=[]; tut={i:0,frozen:true,done:false}; tutShow();
 }
 function tutShow(){
   const st=TUT[tut.i]; tut.done=false;
   if(st.act){
-    tut.frozen=false; tutEl.hidden=true; tutHint.hidden=false; tutHint.textContent=st.hint;
+    tut.frozen=false; tutEl.hidden=true; tutHint.hidden=false; tutHintMsg(st.hint);
     $('meterWrap').scrollIntoView({block:'center',behavior:'smooth'});
     return;
   }
@@ -1718,10 +1721,14 @@ function tutShow(){
   const n=tut.i+1;
   if(st.tab){ const tb=document.querySelector(`.tab[data-tab="${st.tab}"]`); if(tb) tb.click(); }
   tutCard.innerHTML=`<div class="tut-step">튜토리얼 ${n} / ${TUT.length}</div><div class="tut-title disp">${st.title}</div><div class="tut-text">${st.text}</div>
-    <div class="tut-btns">${st.last||tut.force?'':'<button class="tut-skip" id="tutSkip">건너뛰기</button>'}<button class="btn mbtn primary disp tut-go" id="tutGo">${st.btn||'다음'}</button></div>`;
+    <div class="tut-btns">${st.last?'':'<button class="tut-skip" id="tutSkip">건너뛰기</button>'}<button class="btn mbtn primary disp tut-go" id="tutGo">${st.btn||'다음'}</button></div>`;
   $('tutGo').onclick=tutNext; if($('tutSkip')) $('tutSkip').onclick=tutEnd;
   if(st.t){ const el=document.querySelector(st.t); if(el) el.scrollIntoView({block: el.offsetHeight>innerHeight*0.6?'start':'center',behavior:'smooth'}); }
   tutPlace(); setTimeout(()=>{ const g=$('tutGo'); if(g) g.focus({preventScroll:true}); },60);
+}
+function tutHintMsg(msg,noSkip){
+  tutHint.innerHTML=''; const m=document.createElement('div'); m.textContent=msg; tutHint.appendChild(m);
+  if(!noSkip){ const b=document.createElement('button'); b.className='tut-hint-skip'; b.textContent='튜토리얼 건너뛰기'; b.onclick=e=>{ e.stopPropagation(); tutEnd(); }; tutHint.appendChild(b); }
 }
 function tutNext(){ if(!tut) return; tut.i++; if(tut.i>=TUT.length) tutEnd(); else tutShow(); }
 function tutEnd(){ const t0=document.querySelector('.tab[data-tab="up"]'); if(t0) t0.click(); tut=null; tutEl.hidden=true; tutHint.hidden=true; S.tutDone=true; save(); window.scrollTo({top:0,behavior:'smooth'}); }
@@ -1751,8 +1758,8 @@ function tutPlace(){
 }
 function tutOnResult(res){
   if(!tut || !TUT[tut.i].act || tut.done) return;
-  if(res==='fail'){ tutHint.textContent='아깝다! 바늘이 초록 칸에 올 때 다시 던져 보세요'; return; }
-  tut.done=true; tutHint.textContent=res==='ok'?'성공! 🎉':'대박, '+(res==='perfect'?'퍼펙트':res==='rev'?'거꾸로 세우기':'잭팟')+'! 🎉';
+  if(res==='fail'){ tutHintMsg('아깝다! 바늘이 초록 칸에 올 때 다시 던져 보세요'); return; }
+  tut.done=true; tutHintMsg(res==='ok'?'성공! 🎉':'대박, '+(res==='perfect'?'퍼펙트':res==='rev'?'거꾸로 세우기':'잭팟')+'! 🎉', true);
   setTimeout(()=>{ if(tut) tutNext(); },1200);
 }
 $('tutAgain').addEventListener('click',()=>{ if(!modalOpen && !tut) tutStart(); });
@@ -1858,7 +1865,22 @@ document.addEventListener('visibilitychange',()=>{ if(document.hidden) save(); }
 window.addEventListener('pagehide',save);
 
 resize(); newZones(); buildShop(); buildSkillBar(); drawSkinPreviews(); refreshRecords(); refreshStageUI();
-if(!S.introSeen) showStory(0); else setTimeout(()=>setStage(S.stage),100);
+// 구글 폰트의 한글은 글자 묶음별로 나눠서 받기 때문에, 첫 화면에 쓰는 글자를 미리 받아둔 뒤 프롤로그를 띄움 (최대 2.5초 대기)
+function fontsReady(){
+  if(!document.fonts || !document.fonts.load) return Promise.resolve();
+  const strip = h => String(h||'').replace(/<[^>]+>/g,'');
+  const sample = STORY[0]+ENDING+'프롤로그 스포츠 속보 CHAPTER 물병 들기 경기 시작 계속 플레이 다음 건너뛰기 시작하기 튜토리얼 0123456789×%·!?'
+    + STAGES.map(x=>x.name).join('') + Object.values(CHAPTERS).map(c=>c.name+c.sub).join('')
+    + TUT.map(t=>strip(t.title)+strip(t.text)+strip(t.hint)).join('');
+  const wait = Promise.all([
+    document.fonts.load('400 32px "Black Han Sans"', sample),
+    document.fonts.load('500 14px "Gothic A1"', sample),
+    document.fonts.load('700 14px "Gothic A1"', sample),
+    document.fonts.load('900 14px "Gothic A1"', sample),
+  ]).catch(()=>{});
+  return Promise.race([wait, new Promise(r=>setTimeout(r,2500))]);
+}
+fontsReady().then(()=>{ if(!S.introSeen) showStory(0); else setStage(S.stage); });
 requestAnimationFrame(loop);
 })();
 </script>
