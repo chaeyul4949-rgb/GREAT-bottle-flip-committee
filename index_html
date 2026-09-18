@@ -314,8 +314,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
           <div>
             <button class="throw bz disp" id="throwBtn"><span class="t1">던지기</span><span class="t2">스페이스 / 화면 터치</span><i class="cdbar" id="cdBar"></i></button>
             <div class="minis">
-              <button class="mini btn" id="doubleOpen">🪙 묻고 더블로 가</button>
-              <button class="mini btn" id="yabBtn">🥤 야바위</button>
+              <button class="mini btn" id="doubleOpen"> 묻고 더블로 가</button>
+              <button class="mini btn" id="yabBtn"> 야바위 하기</button>
             </div>
           </div>
         </div>
