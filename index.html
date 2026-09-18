@@ -20,6 +20,7 @@
   --text:#e6e4e0; --mute:#8e8f93;
   --bronze:#a57d4f; --bronze-d:#6d5233; --edge:#2b1d12; --tan:#cfa46b; --bz-bg:#1e2528;
   --gold:#f0b429; --green:#3fae62; --mint:#9fe3b8; --red:#e0352b; --blue:#6f9bff; --fever:#ff8a1f;
+  --exp:#a6dd6a;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#1c1d1f; } }
 :root[data-theme="dark"]{ --bg:#1c1d1f; }
@@ -55,10 +56,13 @@ button,input{font-family:inherit;color:inherit}
 .sp-year{font-size:12px;font-weight:900;color:var(--tan)}
 .sp-mult{margin-left:auto;font-size:12px;font-weight:900;color:var(--mute)}
 .sp-bar{height:5px;background:#262a2d;border-radius:3px;margin-top:7px;overflow:hidden}
-.sp-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+.sp-bar i{display:block;height:100%;width:0;background:var(--exp);transition:width .25s}
+.sp-bar.full i{animation:expfull .5s infinite alternate}
+@keyframes expfull{to{filter:brightness(1.4)}}
 .sp-sub{font-size:12px;font-weight:700;color:var(--mute);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nextbtn{background:#121517;padding:0 18px;min-width:140px;font-size:19px;line-height:1.15}
 .nextbtn small{display:block;font-family:"Gothic A1",sans-serif;font-size:12px;font-weight:900;color:var(--text)}
+.nextbtn.ready small{color:var(--exp)}
 .wallet{padding:5px 16px;display:flex;flex-direction:column;justify-content:center;min-width:150px}
 .wallet .g{font-size:25px;line-height:1.05;display:flex;align-items:center;gap:8px;color:var(--gold)}
 .wallet .g::before{content:"";width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,var(--gold) 55%,#9a6b00)}
@@ -133,6 +137,7 @@ button,input{font-family:inherit;color:inherit}
 .info{position:absolute;left:12px;bottom:12px;display:grid;grid-template-columns:auto auto;gap:3px 12px;background:rgba(28,29,31,.85);border-radius:6px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--mute);pointer-events:none}
 .info b{color:var(--text);font-weight:900;text-align:right}
 .info b.g{color:var(--gold)}
+.info b.x{color:var(--exp)}
 
 /* ---------- side ---------- */
 .side{overflow:hidden}
@@ -186,6 +191,7 @@ button,input{font-family:inherit;color:inherit}
 .m-story{font-size:18px;line-height:1.75;font-weight:700;margin:0 0 16px;min-height:3.5em;padding:12px 16px;background:#161b1d;border-left:3px solid var(--bronze);border-radius:4px}
 .m-meta{font-size:13px;font-weight:700;color:var(--mute);margin-bottom:4px}
 .m-meta b{color:var(--gold)}
+.m-meta b.x{color:var(--exp)}
 .m-btns{display:flex;gap:10px;margin-top:18px}
 .mbtn{flex:1;padding:13px;font-size:19px}
 .mbtn.primary{background:var(--bz-bg);border:2px solid var(--bronze);color:var(--tan);box-shadow:0 0 0 2px var(--edge)}
@@ -270,6 +276,23 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
 .zone.rv{background:linear-gradient(180deg,#ddb97a,var(--z-rv))}
 .legend i{border-radius:3px}
 @media (max-width:560px){ .topbar>.nextbtn{min-width:0;padding:0 10px;font-size:17px} .topbar>.wallet{min-width:0;padding:5px 10px} .wallet .g{font-size:21px} .topbar>.iconbtn{width:44px} }
+
+/* ---------- tutorial ---------- */
+.tut{position:fixed;inset:0;z-index:60}
+.tut-hole{position:fixed;border-radius:12px;box-shadow:0 0 0 9999px rgba(8,8,9,.74);outline:2px solid var(--tan);outline-offset:2px;pointer-events:none;transition:left .2s,top .2s,width .2s,height .2s}
+.tut-hole.none{outline:0}
+.tut-card{position:fixed;width:min(350px,calc(100vw - 24px));background:var(--bz-bg);border:2px solid var(--bronze);border-radius:10px;box-shadow:0 0 0 2px var(--edge),0 14px 34px rgba(0,0,0,.6);padding:14px 16px 16px;animation:drop .2s ease-out}
+.tut-step{font-size:12px;font-weight:900;color:var(--mute)}
+.tut-title{font-size:24px;line-height:1.2;color:var(--tan);margin-top:2px}
+.tut-text{font-size:14px;line-height:1.7;font-weight:700;margin:8px 0 14px}
+.tut-text b{color:var(--gold)}
+.tut-text .g{color:#7fc9a8}.tut-text .y{color:#e3bd76}.tut-text .r{color:#ff6b5f}.tut-text .x{color:var(--exp)}.tut-text .bl{color:var(--blue)}
+.tut-btns{display:flex;gap:8px;align-items:center}
+.tut-skip{background:transparent;border:0;color:var(--mute);font-weight:900;font-size:13px;cursor:pointer;padding:8px 4px;text-decoration:underline}
+.tut-go{flex:1;padding:10px;font-size:18px}
+.tut-hint{position:fixed;z-index:45;transform:translate(-50%,-100%);max-width:calc(100vw - 24px);text-align:center;background:var(--bronze);color:#1e1409;padding:9px 16px;border-radius:8px;font-size:18px;pointer-events:none;box-shadow:0 0 0 2px var(--edge),0 6px 16px rgba(0,0,0,.5);animation:hintb .7s ease-in-out infinite alternate}
+.tut-hint::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:var(--bronze)}
+@keyframes hintb{to{transform:translate(-50%,calc(-100% - 6px))}}
 </style>
 </head>
 <body>
@@ -278,7 +301,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
     <div class="brand disp">대단한 물병 세우기 위원회</div>
     <button class="stagebtn bz" id="stagePill" aria-label="스테이지 지도 열기">
       <div class="sp-top"><span class="sp-code disp" id="spCode">1-1</span><span class="sp-name disp" id="spName"></span><span class="sp-year" id="spYear"></span><span class="sp-mult" id="spMult"></span></div>
-      <div class="sp-bar"><i id="spFill"></i></div>
+      <div class="sp-bar" id="spBar"><i id="spFill"></i></div>
       <div class="sp-sub" id="spSub"></div>
     </button>
     <button class="nextbtn bz disp" id="nextBtn"><span id="nextLabel">다음 무대</span><small id="nextCost"></small></button>
@@ -291,7 +314,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
     <section>
       <div class="stage">
         <canvas id="cv" aria-label="물병 던지기 무대. 눌러서 던지기"></canvas>
-        <div class="hud">
+        <div class="hud" id="hud">
           <div class="plate"><div class="lab">콤보</div><div class="val disp" id="comboBig">0</div><div class="ext" id="comboSub">×1.00</div></div>
           <div class="plate"><div class="lab">높이</div><div class="val disp" id="hBig">0.0m</div><div class="ext" id="hSub">발판</div></div>
         </div>
@@ -299,6 +322,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
         <div class="info">
           <span>성공 시</span><b class="g"><span id="iGain">0</span> G</b>
           <span>거꾸로</span><b class="g"><span id="iRev">0</span> G</b>
+          <span>경험치</span><b class="x" id="iExp">0</b>
           <span>최대 높이</span><b id="iH">0</b>
           <span>쿨타임</span><b><span id="iCd">0</span>초</b>
         </div>
@@ -306,7 +330,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
       <div class="deck framed">
         <div class="fever" id="fever"><span class="tag disp">피버</span><div class="track"><div class="fever-fill" id="feverFill"></div><div class="txt" id="feverTxt">0%</div></div></div>
         <div class="deckrow">
-          <div>
+          <div id="meterWrap">
             <div class="meter" id="meter">
               <div class="zone ok" id="zOk"></div><div class="zone pf" id="zPf"></div><div class="zone rv" id="zRv"></div><div class="zone jp" id="zJp" hidden></div><div class="needle" id="needle"></div>
             </div>
@@ -320,7 +344,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
           </div>
           <div>
             <button class="throw bz disp" id="throwBtn"><span class="t1">던지기</span><span class="t2">스페이스 / 화면 터치</span><i class="cdbar" id="cdBar"></i></button>
-            <div class="minis">
+            <div class="minis" id="minis">
               <button class="mini btn" id="doubleOpen"> 묻고 더블로 가</button>
               <button class="mini btn" id="yabBtn"> 야바위 하기</button>
             </div>
@@ -329,7 +353,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
       </div>
     </section>
 
-    <aside class="side panel">
+    <aside class="side panel" id="sidePanel">
       <div class="tabs" role="tablist">
         <button class="tab disp on" data-tab="up">강화</button>
         <button class="tab disp" data-tab="skin">스킨</button>
@@ -342,12 +366,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--tan);outline-of
       <div class="pane" id="pane-rec" hidden>
         <div class="rec" id="recBox"></div>
         <div class="stories" id="storyList"></div>
-        <button class="reset" id="resetBtn">처음부터 다시 하기</button>
+        <button class="reset" id="tutAgain" style="color:var(--tan)">튜토리얼 다시 보기</button>
+        <button class="reset" id="resetBtn" style="margin-top:0">처음부터 다시 하기</button>
       </div>
     </aside>
   </div>
 </div>
 
+<div class="tut" id="tut" hidden><div class="tut-hole" id="tutHole"></div><div class="tut-card" id="tutCard" role="dialog" aria-modal="true"></div></div>
+<div class="tut-hint disp" id="tutHint" hidden></div>
 <div class="modal" id="modal" hidden><div class="mcard" role="dialog" aria-modal="true"><div id="mcard"></div></div></div>
 
 <script>
@@ -373,6 +400,8 @@ const UPGS = [
   {k:'gold',  ic:'💰', name:'골드 획득량',    base:120, g:1.6, max:50, eff:l=>'×'+goldMult(l).toFixed(1)},
   {k:'ftime', ic:'🔥', name:'피버 지속시간',  base:800, g:2.1, max:20, eff:l=>feverDur(l)+'초'},
   {k:'ffill', ic:'⚡', name:'피버 충전 속도', base:800, g:2.1, max:20, eff:l=>'×'+feverFill(l).toFixed(1)},
+  // 레벨당 +3%씩 조금만 오르는 대신 100레벨까지. 비용도 1.22배씩 완만하게 증가
+  {k:'exp',   ic:'📈', name:'경험치 획득량',  base:600, g:1.22, max:100, eff:l=>'×'+expMult(l).toFixed(2)},
 ];
 
 const CHAPTERS = {
@@ -436,7 +465,7 @@ const SKILLS = [
   {k:'wide',   name:'넓은 판정',   type:'active', key:'2', cost:[40,100,240],  dur:[5,7,9],     cd:[45,38,30],  desc:l=>`초록 칸 1.6배, ${[5,7,9][l-1]}초 (재사용 ${[45,38,30][l-1]}초)`},
   {k:'midas',  name:'황금 손',     type:'active', key:'3', cost:[60,160,400],  n:[2,3,4],      cd:[60,50,40],  desc:l=>`다음 ${[2,3,4][l-1]}번 던지기가 황금 찬스 (재사용 ${[60,50,40][l-1]}초)`},
   {k:'ignite', name:'피버 점화',   type:'active', key:'4', cost:[100,240,600], cd:[180,150,120], desc:l=>`피버 즉시 발동 (재사용 ${[180,150,120][l-1]}초)`},
-  {k:'robot', name:'로봇 조수', type:'toggle', key:'A', cost:[160,400,900], p:[0.32,0.44,0.56], iv:[3,2.5,2], desc:l=>`켜두면 ${[3,2.5,2][l-1]}초마다 대신 던져요. 성공률 ${[32,44,56][l-1]}%, 골드·포인트 70%`},
+  {k:'robot', name:'로봇 조수', type:'toggle', key:'A', cost:[160,400,900], p:[0.32,0.44,0.56], iv:[3,2.5,2], desc:l=>`켜두면 ${[3,2.5,2][l-1]}초마다 대신 던져요. 성공률 ${[32,44,56][l-1]}%, 골드·포인트 70%, 경험치 50%`},
   {k:'second', name:'두 번째 기회', type:'passive', cost:[50,140,360],  p:[0.1,0.2,0.3], desc:l=>`실패해도 ${[10,20,30][l-1]}% 확률로 다시 섬`},
   {k:'guard',  name:'콤보 보호막', type:'passive', cost:[40,120,300],  cd:[30,20,12],  desc:l=>`실패해도 콤보 유지 (${[30,20,12][l-1]}초마다 1회)`},
   {k:'collect',name:'포인트 수집가', type:'passive', cost:[60,180,440], m:[1.5,2,3],   desc:l=>`스킬 포인트 획득 ×${[1.5,2,3][l-1]}`},
@@ -454,15 +483,17 @@ const SKICON = {
 };
 const KEY = 'bottle-flip-champ-v3';
 const START_GOLD = 9999999999999999999990; // 테스트용 시작 골드. 출시 때는 0으로
-function defState(){return{gold:START_GOLD,testBonus:true,lv:{cool:0,power:0,gold:0,ftime:0,ffill:0},owned:['pet'],skin:'pet',fever:0,sound:true,
-  stage:0,unlocked:0,introSeen:false,pts:0,sk:{},robotOn:false,champion:false,
-  stats:{flips:0,ok:0,perfect:0,rev:0,jack:0,best:0,earned:0,fevers:0,maxH:0,space:false,gWin:0,gLose:0,gNet:0}}}
+function defState(){return{gold:START_GOLD,testBonus:true,lv:{cool:0,power:0,gold:0,ftime:0,ffill:0,exp:0},owned:['pet'],skin:'pet',fever:0,sound:true,
+  stage:0,unlocked:0,exp:0,introSeen:false,tutDone:false,pts:0,sk:{},robotOn:false,champion:false,
+  stats:{flips:0,ok:0,perfect:0,rev:0,jack:0,best:0,earned:0,fevers:0,maxH:0,space:false,gWin:0,gLose:0,gNet:0,expTotal:0}}}
 function load(){
   try{
     const r = localStorage.getItem(KEY); if(!r) return defState();
     const o = JSON.parse(r), d = defState();
     const s = {...d, ...o, lv:{...d.lv,...(o.lv||{})}, stats:{...d.stats,...(o.stats||{})}, sk:{...(o.sk||{})}, owned:Array.isArray(o.owned)?o.owned:d.owned};
     s.pts=+s.pts||0;
+    s.exp=Math.max(0,+s.exp||0);
+    if(o.tutDone===undefined) s.tutDone=!!o.introSeen; // 기존 플레이어는 튜토리얼 생략
     if(!o.testBonus){ s.gold+=START_GOLD; s.testBonus=true; }
     s.owned = s.owned.map(x=>x==='rainbow'?'prism':x);
     if(!SKINS.some(k=>k.id===s.skin)) s.skin='pet';
@@ -479,8 +510,17 @@ const heightMult = l => 1 + 0.12*l;
 const goldMult   = l => 1 + 0.3*l;
 const feverDur   = l => 8 + 0.4*l;
 const feverFill  = l => 1 + 0.06*l;
+const expMult    = l => 1 + 0.03*l;
 const stageMult  = i => Math.pow(1.35, i);
-const unlockCost = i => Math.floor(1500*Math.pow(2.35, i-1));
+// ----- 스테이지 진행: 골드 대신 경험치 -----
+// t = 다음에 열 무대 번호(1~19, 20은 최종 결승). 뒤로 갈수록 필요 경험치가 1.2배씩 늘어남
+const expNeed    = t => Math.floor(50*Math.pow(1.2, t-1));
+// 무대가 높을수록 한 번 성공할 때 받는 경험치가 줄어듦 (1-1: ×1.00 → 4-5: ×0.47)
+const expRate    = i => 1/(1+i*0.06);
+// 초록 판정 칸 폭: 1-1~1-3은 34%로 넓게, 1-4에서 22%로 확 줄고, 그 뒤로 무대마다 4%씩 조금씩 줄어 4-5에서 약 11%
+const okWidth    = i => i<=2 ? 0.34 : Math.max(0.11, 0.22*Math.pow(0.96, i-3));
+const EXP_BASE   = {ok:10, perfect:15, rev:40, jack:150};
+const TEST_SKIP  = false; // 테스트용: 다음 무대 버튼을 누르면 경험치 없이 바로 이동
 const costOf     = u => Math.floor(u.base*Math.pow(u.g, S.lv[u.k]));
 const skinOf     = id => SKINS.find(s=>s.id===id) || SKINS[0];
 const STG        = () => STAGES[S.stage];
@@ -567,6 +607,7 @@ const sfx={
   lose(){beep(220,.25,'sawtooth',.05);beep(150,.35,'sawtooth',.05,.18)},
   space(){[220,330,440,660,880].forEach((f,i)=>beep(f,.4,'sine',.05,i*.1))},
   clear(){[523,659,784,1047,784,1047,1319].forEach((f,i)=>beep(f,.25,'triangle',.06,i*.09))},
+  expFull(){[659,880,1175].forEach((f,i)=>beep(f,.16,'triangle',.05,i*.08))},
 };
 
 const $ = id => document.getElementById(id);
@@ -577,7 +618,7 @@ const comboBig=$('comboBig'), comboSub=$('comboSub'), hBig=$('hBig'), hSub=$('hS
 const soundBtn=$('soundBtn'), modal=$('modal'), mcard=$('mcard');
 
 function newZones(){
-  const okW=Math.min(0.42,Math.max(0.13,0.2-S.stage*0.0035)*((skAct.wide||0)>0?1.6:1)), okC=0.3+Math.random()*0.4;
+  const okW=Math.min(0.5, okWidth(S.stage)*((skAct.wide||0)>0?1.6:1)), okC=0.3+Math.random()*0.4;
   const ok=[okC-okW/2, okC+okW/2], pf=[okC-okW*0.15, okC+okW*0.15];
   const rw=Math.max(0.032,0.045-S.stage*0.0006); let rv=null;
   for(let i=0;i<30 && !rv;i++){
@@ -1158,7 +1199,7 @@ function burst(n,colorFn,speed){
 }
 
 // ---------- gameplay ----------
-function ready(){ return !flight && !settle && cdLeft<=0 && !modalOpen; }
+function ready(){ return !flight && !settle && cdLeft<=0 && !modalOpen && !(tut && (tut.frozen||tut.done)); }
 
 function doThrow(auto){
   if(!ready()) return;
@@ -1198,6 +1239,26 @@ function land(f){
   resolve(f.res, f.auto);
 }
 
+// ---------- experience (stage progress) ----------
+function allClear(){ const t=nextTarget(); return t>STAGES.length || (t===STAGES.length && S.champion); }
+// 경험치는 지금까지 열린 가장 높은 무대에서만 쌓임 (쉬운 무대 반복 방지)
+function expOpen(){ return !allClear() && S.stage===S.unlocked; }
+function expFor(res,c,auto){
+  return Math.max(1, Math.round(EXP_BASE[res]*expRate(S.stage)*expMult(S.lv.exp)*(1+Math.min(c,20)*0.02)*(auto?0.5:1)));
+}
+function gainExp(res,auto){
+  if(!expOpen()) return;
+  const need=expNeed(nextTarget()), wasFull=S.exp>=need;
+  const e=expFor(res,combo,auto);
+  S.exp=Math.min(need,S.exp+e); S.stats.expTotal+=e;
+  addText('+'+e+' EXP','#c9f27a',20,76);
+  if(!wasFull && S.exp>=need){
+    sfx.expFull();
+    const final=nextTarget()===STAGES.length;
+    texts.push({text:final?'최종 결승 진출!':'다음 무대로 이동!',color:'#c9f27a',size:34,x:W/2,y:H*0.26,life:2.2,vy:-10});
+  }
+}
+
 function resolve(res, auto){
   S.stats.flips++;
   if(res==='fail'){
@@ -1230,13 +1291,15 @@ function resolve(res, auto){
     const basePts = res==='jack'?150:res==='rev'?30:res==='perfect'?10:5;
     const pts = basePts*(skLv('collect')?SKL('collect').m[skLv('collect')-1]:1)*(auto?0.7:1);
     S.pts += pts; addText('+'+(pts%1?pts.toFixed(1):pts)+' pt','#5fd3ff',22,44);
+    gainExp(res,auto);
     if(feverLeft<=0 && feverLock<=0){
       S.fever += (res==='jack'?80:res==='rev'?40:res==='perfect'?18:12)*feverFill(S.lv.ffill)*(auto?0.5:1);
       if(S.fever>=100) startFever();
     }
   }
+  tutOnResult(res);
   if(goldenCharges>0){ golden=true; goldenCharges--; } else golden = Math.random()<0.05;
-  newZones(); refreshRecords();
+  newZones(); refreshRecords(); refreshStageUI();
 }
 
 function startFever(){
@@ -1292,34 +1355,38 @@ function setStage(i,silent){
   if(st.year) texts.push({text:st.year,color:'#ffc83d',size:22,x:W/2,y:H*0.34+42,life:2.2,vy:0});
   if(st.grav) texts.push({text:'저중력 · 높이 ×'+(1/st.grav).toFixed(1),color:'#5fd3ff',size:20,x:W/2,y:H*0.34+(st.year?76:42),life:2.2,vy:0});
 }
-function nextTarget(){ return S.unlocked+1; } // index of next thing to buy (20 = final)
+function nextTarget(){ return S.unlocked+1; } // index of next thing to open (20 = final)
 function buyNext(){
-  const t=nextTarget(); if(t>STAGES.length || (t===STAGES.length && S.champion)) return;
-  const c=unlockCost(t); if(S.gold<c) return;
-  S.gold-=c; sfx.clear();
+  if(allClear()) return;
+  const t=nextTarget(), need=expNeed(t); if(S.exp<need && !TEST_SKIP) return;
+  S.exp=0; sfx.clear();
   if(t===STAGES.length){ S.champion=true; save(); showEnding(); return; }
   S.unlocked=t; save(); showStory(t);
 }
 
 const fmtMult = m => m<10 ? m.toFixed(2) : m<100 ? m.toFixed(1) : fmt(m);
+const pct = v => Math.round(v*100)+'%';
 function refreshStageUI(){
   const st=STG();
   $('spCode').textContent=st.code;
   $('spName').textContent=st.name;
   $('spYear').textContent=st.year||('CH.'+st.ch+' '+CHAPTERS[st.ch].name);
-  $('spMult').textContent=`골드 ×${fmtMult(stageMult(st.i))}${st.grav?' · 저중력':''}`;
-  const t=nextTarget(), btn=$('nextBtn');
-  if(t>STAGES.length || (t===STAGES.length && S.champion)){
-    btn.disabled=true; $('nextLabel').textContent='🏆 챔피언'; $('nextCost').textContent='모든 대회 우승';
+  $('spMult').textContent=`골드 ×${fmtMult(stageMult(st.i))} · 판정 ${pct(okWidth(st.i))}${st.grav?' · 저중력':''}`;
+  const btn=$('nextBtn'), bar=$('spBar');
+  if(allClear()){
+    btn.disabled=true; btn.classList.remove('ready'); bar.classList.remove('full');
+    $('nextLabel').textContent='🏆 챔피언'; $('nextCost').textContent='모든 대회 우승';
     $('spFill').style.width='100%'; $('spSub').textContent='전 시대 통합 챔피언 · 눌러서 무대 이동';
-  } else {
-    const c=unlockCost(t), final=t===STAGES.length;
-    $('nextLabel').textContent = final ? '🏆 최종 결승' : '다음 무대 ▶';
-    $('nextCost').textContent = fmt(c)+' G';
-    btn.disabled = S.gold<c;
-    $('spFill').style.width=Math.min(100,S.gold/c*100)+'%';
-    $('spSub').textContent = final ? `최종 결승 참가비 ${fmt(S.gold)} / ${fmt(c)} G` : `다음: ${STAGES[t].code} ${STAGES[t].name} · ${fmt(S.gold)} / ${fmt(c)} G`;
+    return;
   }
+  const t=nextTarget(), need=expNeed(t), final=t===STAGES.length, full=S.exp>=need;
+  $('nextLabel').textContent = final ? '🏆 최종 결승' : '다음 무대 ▶';
+  $('nextCost').textContent = full ? '곧 이동!' : TEST_SKIP ? '테스트: 바로 이동' : 'EXP '+pct(S.exp/need)+' · 자동';
+  btn.disabled = !full && !TEST_SKIP; btn.classList.toggle('ready',full); bar.classList.toggle('full',full);
+  $('spFill').style.width=Math.min(100,S.exp/need*100)+'%';
+  const prog = `EXP ${Math.floor(S.exp)} / ${need}`;
+  if(S.stage!==S.unlocked) $('spSub').textContent = `경험치는 최신 무대 ${STAGES[S.unlocked].code}에서만 쌓여요 · ${prog}`;
+  else $('spSub').textContent = final ? `최종 결승까지 ${prog}` : `다음: ${STAGES[t].code} ${STAGES[t].name} · ${prog}`;
 }
 
 function openModal(html,primary){
@@ -1338,13 +1405,15 @@ function typeText(el,txt){
 
 function showStory(i){
   const st=STAGES[i], newCh = i===0 || STAGES[i-1].ch!==st.ch;
+  const needTxt = i+1<=STAGES.length ? `${i+1===STAGES.length?'최종 결승':'다음 무대'}까지 <b class="x">EXP ${expNeed(i+1)}</b>` : '';
   openModal(`<div class="m-band"><span class="a disp">${i===0?'프롤로그':'스포츠 속보'}</span><span class="b">${newCh?`CHAPTER ${st.ch} ${CHAPTERS[st.ch].name} · `:''}${st.code}${st.year?' · '+st.year:''}</span></div>
     <div class="m-body"><div class="m-title disp">${st.name}</div>
     <p class="m-story" id="mStory"></p>
     <div class="m-meta">이 무대의 골드 배율 <b>×${fmtMult(stageMult(i))}</b>${st.grav?` · 저중력 높이 ×${(1/st.grav).toFixed(1)}`:''}</div>
+    <div class="m-meta">초록 판정 칸 <b class="x">${pct(okWidth(i))}</b> · 성공 경험치 <b class="x">×${expRate(i).toFixed(2)}</b> · ${needTxt}</div>
     <div class="m-btns"><button class="btn mbtn primary disp" id="mGo">${i===0?'물병 들기':'경기 시작'}</button></div></div>`, go);
   typeText($('mStory'), STORY[i]);
-  function go(){ if(i===0){ S.introSeen=true; } closeModal(); setStage(i); refreshRecords(); }
+  function go(){ if(i===0){ S.introSeen=true; } closeModal(); setStage(i); refreshRecords(); if(i===0 && !S.tutDone) setTimeout(tutStart,900); }
   $('mGo').onclick=go;
 }
 function showEnding(){
@@ -1359,19 +1428,19 @@ function showEnding(){
 }
 
 function showMap(){
-  const t=nextTarget();
+  const t=nextTarget(), need=allClear()?0:expNeed(t), full=!allClear() && S.exp>=need;
   let html=`<div class="m-band"><span class="a disp">대회 일정</span><span class="b">열린 무대 ${Math.min(S.unlocked+1,STAGES.length)} / ${STAGES.length}</span></div><div class="m-body"><div class="m-title disp">어느 대회에 나갈까요?</div>`;
   for(const ch of [1,2,3,4]){
     html+=`<div class="chap"><h3 class="disp">CH.${ch} ${CHAPTERS[ch].name}</h3><p>${CHAPTERS[ch].sub}</p><div class="sgrid">`;
     for(const st of STAGES.filter(s=>s.ch===ch)){
       const open=st.i<=S.unlocked, buyable=st.i===t, cur=st.i===S.stage;
-      const label = open ? st.name : buyable ? fmt(unlockCost(st.i))+' G' : '잠김';
-      html+=`<button class="sbtn ${open&&!cur?'done':''} ${cur?'cur':''} ${buyable?'buyable':''}" data-i="${st.i}" ${!open&&!(buyable&&S.gold>=unlockCost(st.i))?'disabled':''}>
-        <b>${open?st.code:buyable?'🔓 '+st.code:'🔒'}</b><span>${label}</span><span>${open||buyable?(st.year?st.year:'×'+fmtMult(stageMult(st.i))):''}</span></button>`;
+      const label = open ? st.name : buyable ? (full?'곧 이동!':'EXP '+Math.floor(S.exp)+'/'+need) : '잠김';
+      html+=`<button class="sbtn ${open&&!cur?'done':''} ${cur?'cur':''} ${buyable?'buyable':''}" data-i="${st.i}" ${!open&&!(buyable&&(full||TEST_SKIP))?'disabled':''}>
+        <b>${open?st.code:buyable?'🔓 '+st.code:'🔒'}</b><span>${label}</span><span>${open||buyable?(st.year?st.year:'판정 '+pct(okWidth(st.i))):''}</span></button>`;
     }
     html+=`</div></div>`;
   }
-  if(t===STAGES.length && !S.champion) html+=`<div class="m-meta">🏆 최종 결승 참가비 <b>${fmt(unlockCost(t))} G</b> · 위쪽 버튼으로 도전할 수 있어요.</div>`;
+  if(t===STAGES.length && !S.champion) html+=`<div class="m-meta">🏆 최종 결승 <b class="x">EXP ${Math.floor(S.exp)} / ${need}</b> · 경험치가 가득 차면 자동으로 도전해요.</div>`;
   html+=`<div class="m-btns"><button class="btn mbtn primary disp" id="mClose">닫기</button></div></div>`;
   openModal(html, closeModal);
   mcard.querySelectorAll('.sbtn').forEach(b=>b.addEventListener('click',()=>{
@@ -1419,7 +1488,7 @@ function buildShop(){
 function refreshShop(){
   for(const u of UPGS){
     const e=upEls[u.k], l=S.lv[u.k], max=l>=u.max;
-    e.lv.textContent='Lv.'+l+(max?' MAX':'');
+    e.lv.textContent='Lv.'+l+(max?' MAX':' / '+u.max);
     e.ef.textContent = max ? u.eff(l) : u.eff(l)+' → '+u.eff(l+1);
     if(max){ e.btn.textContent='MAX'; e.btn.disabled=true; }
     else { const c=costOf(u); e.btn.textContent=fmt(c)+' G'; e.btn.disabled=S.gold<c; }
@@ -1467,7 +1536,7 @@ function refreshRecords(){
   $('recBox').innerHTML=[
     ['열린 무대',Math.min(S.unlocked+1,STAGES.length)+' / '+STAGES.length+(S.champion?' 🏆':'')],
     ['총 던진 횟수',fmt(st.flips)],['성공률',rate+'%'],['퍼펙트',fmt(st.perfect)],['거꾸로 세우기',fmt(st.rev)],
-    ['잭팟 ×100',fmt(st.jack)],['최고 콤보',st.best],['도박 승 / 패',st.gWin+' / '+st.gLose],['도박 손익',(st.gNet<0?'-':'+')+fmt(Math.abs(st.gNet))+' G'],['최고 높이',fmtM(st.maxH)],['피버 발동',fmt(st.fevers)],['누적 골드',fmt(st.earned)+' G'],
+    ['잭팟 ×100',fmt(st.jack)],['최고 콤보',st.best],['누적 경험치',fmt(st.expTotal||0)],['도박 승 / 패',st.gWin+' / '+st.gLose],['도박 손익',(st.gNet<0?'-':'+')+fmt(Math.abs(st.gNet))+' G'],['최고 높이',fmtM(st.maxH)],['피버 발동',fmt(st.fevers)],['누적 골드',fmt(st.earned)+' G'],
   ].map(r=>`<span>${r[0]}</span><span>${r[1]}</span>`).join('');
   let h='';
   for(let i=0;i<=Math.min(S.unlocked,STAGES.length-1);i++){ if(i===0&&!S.introSeen) break; h+=`<div><b>${STAGES[i].code} ${STAGES[i].name}</b>${STORY[i]}</div>`; }
@@ -1497,6 +1566,7 @@ $('soundIc').textContent=S.sound?'🔊':'🔇';
 throwBtn.addEventListener('click',()=>doThrow());
 cv.addEventListener('pointerdown',e=>{ e.preventDefault(); doThrow(); });
 window.addEventListener('keydown',e=>{
+  if(tutFrozen()){ if(e.code==='Enter'||e.code==='Space'){ e.preventDefault(); tutNext(); } else if(e.code==='Escape' && !TUT[tut.i].last && !tut.force) tutEnd(); return; }
   if(modalOpen){ if(e.code==='Escape' && modalPrimary===closeModal) closeModal(); return; }
   if(e.repeat) return;
   if(e.target.tagName==='INPUT') return;
@@ -1612,18 +1682,93 @@ function showYabawi(){
   }));
 }
 
+// ---------- tutorial ----------
+// 처음 시작할 때 화면을 멈추고 하나씩 설명. act 단계에서만 게임이 움직이고 직접 던져 봄
+const TUT = [
+  {title:'튜토리얼', text:'물병을 던져서 <b>똑바로 세우는</b> 게임이에요. 잘 세울수록 골드와 경험치가 쌓이고, 경험치가 차면 다음 대회로 나가요. 하나씩 알려 드릴게요.'},
+  {t:'#meterWrap', title:'판정 게이지', text:'흰 바늘이 좌우로 계속 움직여요. 바늘이 <span class="g">초록 칸</span>에 있을 때 던지면 성공! 가운데 <span class="g">연한 칸</span>은 퍼펙트 ×1.5, <span class="y">노란 칸</span>은 거꾸로 세우기 ×10, 가끔 나오는 <span class="r">빨간 칸</span>은 잭팟 ×100이에요.'},
+  {t:'#throwBtn', title:'던지기', text:'이 버튼, <b>스페이스바</b>, 또는 <b>무대 화면을 터치</b>하면 던져요. 던진 뒤에는 버튼 아래 막대가 줄어드는 동안 잠깐 쉬어야 해요.'},
+  {act:true, hint:'직접 해보세요! 바늘이 초록 칸에 올 때 던지기'},
+  {t:'#hud', title:'성공! 콤보', text:'연속으로 성공하면 <b>콤보</b>가 쌓이고 골드 배율이 올라가요. 실패하면 콤보는 0으로 돌아가요. 옆은 이번에 날아간 높이예요.'},
+  {t:'#wallet', title:'골드와 스킬 포인트', text:'성공할 때마다 <b>골드</b>와 <span class="bl">스킬 포인트</span>가 들어와요. 둘 다 오른쪽 메뉴에서 써요.'},
+  {t:'#stagePill', title:'경험치와 다음 무대', text:'<span class="x">연두색 막대</span>가 경험치예요. 가득 차면 <b>자동으로 다음 대회</b>로 넘어가요. 무대가 올라갈수록 초록 칸이 좁아지고 경험치도 천천히 차요. 누르면 대회 지도가 열려요.'},
+  {t:'#fever', title:'피버', text:'성공하면 피버 게이지가 차요. 가득 차면 몇 초 동안 쿨타임이 거의 없어지고 <b>골드가 3배</b>예요. 이때 최대한 빨리 던지세요!'},
+  {t:'#sidePanel', tab:'up',    title:'강화 탭', text:'골드로 능력치를 올려요. <b>쿨타임 감소</b>, <b>힘</b>(더 높이 날아서 골드 증가), <b>골드 획득량</b>, <b>피버</b> 지속시간과 충전 속도, 그리고 <span class="x">경험치 획득량</span>이 있어요. 경험치 획득량은 조금씩 오르는 대신 100레벨까지 올릴 수 있어요.'},
+  {t:'#sidePanel', tab:'skin',  title:'스킨 탭', text:'골드로 새 물병을 살 수 있어요. 비싼 병일수록 <b>골드 배율</b>이 커져요(최대 ×250). 산 병은 <b>장착</b>을 눌러 바꿔 쓸 수 있어요.'},
+  {t:'#sidePanel', tab:'skill', title:'스킬 탭', text:'<span class="bl">스킬 포인트</span>로 배워요. <b>액티브</b> 스킬은 숫자 키 1~4로 쓰고, <b>로봇 조수</b>는 A 키로 켜면 대신 던져 줘요. <b>패시브</b>는 배우기만 하면 자동으로 적용돼요. 스킬마다 3레벨까지 있어요.'},
+  {t:'#sidePanel', tab:'rec',   title:'기록 탭', text:'성공률, 최고 콤보, 최고 높이 같은 <b>기록</b>과 지금까지의 <b>스토리</b>를 볼 수 있어요. 여기서 튜토리얼을 다시 보거나 처음부터 다시 시작할 수도 있어요.'},
+  {t:'#minis', title:'도박 (선택)', text:'모은 골드를 걸고 <b>묻고 더블로 가</b>나 <b>야바위</b>를 할 수 있어요. 잃을 수도 있으니 적당히!'},
+  {title:'준비 끝!', text:'이제 대회를 시작해요. 튜토리얼은 기록 탭에서 언제든 다시 볼 수 있어요.', btn:'시작하기', last:true},
+];
+let tut=null;
+const tutEl=$('tut'), tutHole=$('tutHole'), tutCard=$('tutCard'), tutHint=$('tutHint');
+const tutFrozen = () => !!(tut && tut.frozen);
+function tutStart(){
+  if(modalOpen || flight || settle) { setTimeout(tutStart,300); return; }
+  texts=[]; tut={i:0,frozen:true,done:false,force:!S.tutDone}; tutShow(); // 처음 한 번은 건너뛰기 없이 끝까지
+}
+function tutShow(){
+  const st=TUT[tut.i]; tut.done=false;
+  if(st.act){
+    tut.frozen=false; tutEl.hidden=true; tutHint.hidden=false; tutHint.textContent=st.hint;
+    $('meterWrap').scrollIntoView({block:'center',behavior:'smooth'});
+    return;
+  }
+  tut.frozen=true; tutEl.hidden=false; tutHint.hidden=true;
+  const n=tut.i+1;
+  if(st.tab){ const tb=document.querySelector(`.tab[data-tab="${st.tab}"]`); if(tb) tb.click(); }
+  tutCard.innerHTML=`<div class="tut-step">튜토리얼 ${n} / ${TUT.length}</div><div class="tut-title disp">${st.title}</div><div class="tut-text">${st.text}</div>
+    <div class="tut-btns">${st.last||tut.force?'':'<button class="tut-skip" id="tutSkip">건너뛰기</button>'}<button class="btn mbtn primary disp tut-go" id="tutGo">${st.btn||'다음'}</button></div>`;
+  $('tutGo').onclick=tutNext; if($('tutSkip')) $('tutSkip').onclick=tutEnd;
+  if(st.t){ const el=document.querySelector(st.t); if(el) el.scrollIntoView({block: el.offsetHeight>innerHeight*0.6?'start':'center',behavior:'smooth'}); }
+  tutPlace(); setTimeout(()=>{ const g=$('tutGo'); if(g) g.focus({preventScroll:true}); },60);
+}
+function tutNext(){ if(!tut) return; tut.i++; if(tut.i>=TUT.length) tutEnd(); else tutShow(); }
+function tutEnd(){ const t0=document.querySelector('.tab[data-tab="up"]'); if(t0) t0.click(); tut=null; tutEl.hidden=true; tutHint.hidden=true; S.tutDone=true; save(); window.scrollTo({top:0,behavior:'smooth'}); }
+function tutPlace(){
+  if(!tut) return;
+  const st=TUT[tut.i];
+  if(st.act){ const r=$('meterWrap').getBoundingClientRect(); tutHint.style.left=(r.left+r.width/2)+'px'; tutHint.style.top=(r.top-12)+'px'; return; }
+  const vw=innerWidth, vh=innerHeight;
+  let r=null;
+  if(st.t){ const el=document.querySelector(st.t); if(el) r=el.getBoundingClientRect(); }
+  if(r){ const p=6; tutHole.classList.remove('none'); Object.assign(tutHole.style,{left:(r.left-p)+'px',top:(r.top-p)+'px',width:(r.width+p*2)+'px',height:(r.height+p*2)+'px'}); }
+  else { tutHole.classList.add('none'); Object.assign(tutHole.style,{left:(vw/2)+'px',top:(vh/2)+'px',width:'0px',height:'0px'}); }
+  const cw=tutCard.offsetWidth, ch=tutCard.offsetHeight;
+  let x,y;
+  if(!r){ x=(vw-cw)/2; y=(vh-ch)/2; }
+  else {
+    x=r.left+r.width/2-cw/2;
+    if(r.bottom+18+ch<=vh-8) y=r.bottom+18;
+    else if(r.top-18-ch>=8) y=r.top-18-ch;
+    else if(r.left-18-cw>=8){ x=r.left-18-cw; y=r.top+Math.min(40,r.height/4); }   // 옆에 두기 (세로로 긴 오른쪽 메뉴)
+    else if(r.right+18+cw<=vw-8){ x=r.right+18; y=r.top+Math.min(40,r.height/4); }
+    else y=vh-ch-12;
+    y=Math.min(y,vh-ch-8);
+  }
+  tutCard.style.left=Math.max(12,Math.min(vw-cw-12,x))+'px';
+  tutCard.style.top=Math.max(8,y)+'px';
+}
+function tutOnResult(res){
+  if(!tut || !TUT[tut.i].act || tut.done) return;
+  if(res==='fail'){ tutHint.textContent='아깝다! 바늘이 초록 칸에 올 때 다시 던져 보세요'; return; }
+  tut.done=true; tutHint.textContent=res==='ok'?'성공! 🎉':'대박, '+(res==='perfect'?'퍼펙트':res==='rev'?'거꾸로 세우기':'잭팟')+'! 🎉';
+  setTimeout(()=>{ if(tut) tutNext(); },1200);
+}
+$('tutAgain').addEventListener('click',()=>{ if(!modalOpen && !tut) tutStart(); });
+
 // ---------- loop ----------
-let last=performance.now(), shopTick=0, prevTick=0, saveTick=0;
+let last=performance.now(), shopTick=0, prevTick=0, saveTick=0, advT=0;
 const buffsEl=$('buffs');
 function loop(now){
-  const dt=Math.min(0.05,(now-last)/1000); last=now; time+=dt;
+  const dt=tutFrozen()?0:Math.min(0.05,(now-last)/1000); last=now; time+=dt; // 튜토리얼 설명 중엔 화면 정지
 
   for(const k in skCd) if(skCd[k]>0) skCd[k]=Math.max(0,skCd[k]-dt);
   for(const k in skAct) if(skAct[k]>0){ skAct[k]=Math.max(0,skAct[k]-dt); if(k==='wide'&&skAct[k]===0&&!flight) newZones(); }
   if(guardCd>0) guardCd=Math.max(0,guardCd-dt);
   if(feverLock>0) feverLock=Math.max(0,feverLock-dt);
 
-  const spd=(0.85+S.stage*0.015+Math.min(combo,40)*0.02)*((skAct.slow||0)>0?0.5:1);
+  const spd=(0.85+S.stage*0.015+Math.min(combo,40)*0.02)*((skAct.slow||0)>0?0.5:1)*(tut&&TUT[tut.i].act?0.6:1);
   needle+=nDir*spd*dt;
   if(needle>1){needle=2-needle;nDir=-1} if(needle<0){needle=-needle;nDir=1}
   if(cdLeft>0) cdLeft=Math.max(0,cdLeft-dt);
@@ -1647,6 +1792,11 @@ function loop(now){
   }
   if(wob){ wob.t+=dt; if(wob.t>0.8) wob=null; }
 
+  // 경험치 게이지가 가득 차면 자동으로 다음 무대로 (던지는 중·창이 열려 있을 땐 기다림)
+  if(!tut && !modalOpen && !flight && !settle && expOpen() && S.exp>=expNeed(nextTarget())){
+    advT+=dt; if(advT>0.8){ advT=0; buyNext(); }
+  } else advT=0;
+
   if(feverLeft>0){
     feverLeft-=dt; S.fever=Math.max(0,100*feverLeft/feverTotal);
     if(feverLeft<=0){ feverLeft=0; S.fever=0; feverLock=3; }
@@ -1661,6 +1811,7 @@ function loop(now){
   texts=texts.filter(t=>t.life>0);
 
   draw();
+  if(tut) tutPlace();
 
   goldEl.textContent=fmt(S.gold);
   $('ptsTop').textContent='스킬 포인트 '+fmt(S.pts);
@@ -1693,6 +1844,7 @@ function loop(now){
     shopTick=0; refreshShop(); refreshStageUI();
     const g=goldFor(combo+1)*(golden?5:1);
     $('iGain').textContent=fmt(g); $('iRev').textContent=fmt(g*10); $('iCd').textContent=cooldown().toFixed(2);
+    $('iExp').textContent = expOpen() ? (S.exp>=expNeed(nextTarget()) ? '가득 참' : '+'+expFor('ok',combo+1,false)) : '—';
     $('iH').textContent=fmtM(peakM(S.lv.power)/(STG().grav||1));
   }
   prevTick+=dt;
